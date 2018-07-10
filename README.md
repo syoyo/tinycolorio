@@ -2,6 +2,13 @@
 
 Header only C++11 color IO library.
 
+## Features
+
+### Load
+
+* [x] Baked SPI 3D LUT
+
+
 ## Dependencies
 
 * glm(optional)
@@ -17,6 +24,7 @@ Header only C++11 color IO library.
 ## Supported format
 
 * [x] SPI 3D LUT
+  * You can download some SPI 3D LUT files fromahttps://github.com/imageworks/OpenColorIO-Configs.git
 
 ## License
 
