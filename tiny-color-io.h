@@ -5,8 +5,43 @@
 #include <cstdlib>
 #include <string>
 #include <vector>
+#include <array>
 
 namespace tinycolorio {
+
+template <typename T>
+class LUT1D {
+ public:
+  LUT1D() : x_range_({0.0f, 1.0f}), version_(1), components_(0) {}
+
+  ~LUT1D() = default;
+
+  void create(size_t length, size_t components, std::array<T, 2> x_range) {
+    components_ = components;
+    data_.resize(length * components);
+    x_range_ = x_range;
+  }
+
+  void set(size_t idx, size_t comp, const T val) {
+    if ((idx * components_ + comp) < data_.size()) {
+      data_[idx * components_ + comp] = val;
+    }
+  }
+
+  bool get(size_t idx, size_t comp, T &val) const {
+    if ((idx * components_ + comp) < data_.size()) {
+      val = data_[idx * components_ + comp];
+    }
+  }
+
+  size_t length() { return data_.size() / components_; }
+
+  uint32_t version_{1};
+  std::array<T, 2> x_range_;
+  size_t components_{1};
+
+  std::vector<T> data_; // sz = components_ * length;
+};
 
 template <typename T>
 class LUT3D {
@@ -65,7 +100,19 @@ class LUT3D {
   std::vector<T> data_;  // RGB
 };
 
+using LUT1Df = LUT1D<float>;
 using LUT3Df = LUT3D<float>;
+
+///
+/// Loads SPI1D LUT data(ASCII)
+///
+/// @param[in] filename spi1d LUT filename.
+/// @param[out] lut 1D LUT table.
+/// @param[out] err Error message(when failed to load a LUT).
+/// @return true upon succes.
+///
+bool LoadSPI3DFromFile(const std::string &filename, LUT1Df *lut,
+                       std::string *err = nullptr);
 
 ///
 /// Loads SPI3D LUT data(ASCII)
