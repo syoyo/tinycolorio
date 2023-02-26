@@ -1,2 +1,2 @@
-all:	
-	clang++ -std=c++11 -Weverything -Wno-c++98-compat test_tcio.cc
+all:
+	clang++ -std=c++11 -Weverything -Wno-c++98-compat -Wno-padded test_tcio.cc
