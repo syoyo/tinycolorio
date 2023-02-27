@@ -30,3 +30,7 @@ Header only C++11 color IO library.
 
 MIT
 
+### Third party license
+
+* mini-yaml: MIT license https://github.com/jimmiebergmann/mini-yaml
+

@@ -105,6 +105,22 @@ class LUT3D {
 using LUT1Df = LUT1D<float>;
 using LUT3Df = LUT3D<float>;
 
+class OCIOConfig {
+ public:
+
+ private:
+
+};
+
+///
+/// Loads OCIO config(YAML format) from a file.
+///
+/// @param[in] yaml_filepath ocio config filepath.
+/// @param[out] config OCIO Config.
+/// @param[out] err Error message(when failed to load a LUT).
+///
+bool LoadOCIOConfigFromFile(const std::string &yaml_filepath, OCIOConfig *config, std::string *err = nullptr);
+
 // C++17 from_chars like user defined function for converting ascii string to double.
 //
 // return 0 = success
@@ -412,7 +428,7 @@ bool LoadSPI1DFromFile(const std::string &filename, LUT1Df *lut,
 }
 
 bool LoadSPI3DFromFile(const std::string &filename, LUT3Df *lut,
-                       std::string *err) {
+                       std::string *err, FromCharsFun from_chars_fun) {
   std::ifstream ifs(filename);
 
   if (!ifs) {
