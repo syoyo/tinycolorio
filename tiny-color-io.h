@@ -7,6 +7,11 @@
 #include <vector>
 #include <array>
 
+#if !defined(TINY_COLOR_IO_NO_PUGIXML_INCLUDE)
+#define PUGIXML_NO_EXCEPTIONS
+#include "external/pugixml.hpp"
+#endif
+
 namespace tinycolorio {
 
 template <typename T>
