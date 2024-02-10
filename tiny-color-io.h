@@ -108,6 +108,64 @@ class LUT3D {
 using LUT1Df = LUT1D<float>;
 using LUT3Df = LUT3D<float>;
 
+enum class BitDepth
+{
+  i8, // 8i
+  i10, // 10i
+  i12, // 12i
+  i16, // 16i
+  f16, // 16f
+  f32, // 32f
+};
+
+// 3x3 only
+struct Matrix
+{
+  BitDepth in_bit_depth{BitDepth::f16};
+  BitDepth out_bit_depth{BitDepth::f16};
+
+  std::array<double, 9> m;
+};
+
+struct Log
+{
+  enum class Style {
+      log10,  // log10
+      antiLog10, // antiLog10
+      log2, // log2
+      antiLog2, // antiLog2
+      linToLog, // linToLog
+      logToLin, // logToLin
+      cameraLinToLog, // cameraLinToLog
+      cameraLogToLin, // cameraLogToLin
+  };
+
+  Style style; // required
+  std::string inBitDepth{"16f"};
+  std::string outBitDepth{"16f"};
+
+  // LogParams(required if "style" is not a basic logalgorithm)
+  double base{2.0}; // optional
+  double logSideSlope{1.0}; // optional
+  double logSideOffset{0.0}; // optional
+  double linSideSlope{1.0}; // optional
+  double linSideOffset{0.0}; // optional
+  double linSideBreak{0.0}; // optional. no default value?
+  double linearSlope{0.0}; // optional. no default value?
+};
+
+struct CommonLut
+{
+  // <ProcessList>
+  std::string id;
+  std::string name;
+  std::string version;
+
+  std::string description; // <Description>
+  std::string input_description; // <InputDescription>
+  std::string
+};
+
 ///
 /// Loads SPI1D LUT data(ASCII)
 ///
@@ -129,6 +187,9 @@ bool LoadSPI3DFromFile(const std::string &filename, LUT1Df *lut,
 ///
 bool LoadSPI3DFromFile(const std::string &filename, LUT3Df *lut,
                        std::string *err = nullptr);
+
+
+bool LoadCLFFromFile(const std::string &filename);
 
 }  // namespace tinycolorio
 
@@ -206,6 +267,7 @@ bool LoadSPI3DFromFile(const std::string &filename, LUT3Df *lut,
 
   return true;
 }
+
 
 }  // namespace tinycolorio
 
